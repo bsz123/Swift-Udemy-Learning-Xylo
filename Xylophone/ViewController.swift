@@ -7,15 +7,37 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
+    
+    var player: AVAudioPlayer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
+    @IBAction func keyPressed(_ sender: UIButton) {
+        
+        var buttonTitle = sender.currentTitle! // Avoids nil
+        
+        playSound(soundName: buttonTitle)
+        // need to add param
+        
+        sender.alpha = 0.5 // reduce opacity
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1.0 // clean up
+        }
 
+    }
     
-
+    func playSound( soundName: String ) {
+        let url = Bundle.main.url(forResource: soundName, withExtension: "wav")
+        player = try! AVAudioPlayer(contentsOf: url!)
+        player.play()
+        
+    }
 }
+
 
